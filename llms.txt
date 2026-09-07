@@ -1,0 +1,18 @@
+# WorkBuddy Multi-Instance（WorkBuddy macOS 双开指南）
+
+# 给 AI 阅读代理的文件索引。所有文件可通过 raw.githubusercontent.com 直链获取。
+
+# 核心文档
+- README.md: 人类阅读的主文档。包含原理、手动全流程、图例、FAQ。
+- AGENT.md: 机器向指令文档。把本文件（或其 raw 直链）交给任何 AI 编程助手，即可让它自动完成双开部署。含逐条命令、期望输出、失败处理、验收清单、禁止事项。
+
+# 可执行脚本
+- scripts/setup-workbuddy-2.sh: 一键脚本（安装 / 修复 / 升级三合一）。复制主 app 为独立副本，改写身份标识，注入 product.json 三件套隔离配置，重签名并启动。
+- scripts/verify-isolation.sh: 隔离自检。核对副本身份、product.json 三件套、缓存目录、共享 auth 会话文件的分离状态。
+
+# 深入阅读
+- docs/troubleshooting.md: 全部踩坑记录。CFBundleName 崩溃、签名幽灵文件、共享 auth 会话串号、kill -9 僵尸、pkill 自杀等真实故障与解法。
+- docs/isolation-map.svg: 双实例隔离地图（矢量图）。
+
+# 直链模板
+https://raw.githubusercontent.com/ccccplus/workbuddy-multi-instance/main/<路径>

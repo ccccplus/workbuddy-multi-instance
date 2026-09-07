@@ -1,0 +1,97 @@
+<svg viewBox="0 0 680 820" width="680" height="820" xmlns="http://www.w3.org/2000/svg" font-family="system-ui, -apple-system, 'PingFang SC', sans-serif">
+  <rect x="0" y="0" width="680" height="820" rx="14" fill="#ffffff"/>
+  <text x="340" y="38" text-anchor="middle" font-size="19" font-weight="700" fill="#212529">WorkBuddy 双实例隔离地图（macOS）</text>
+  <text x="340" y="60" text-anchor="middle" font-size="12" fill="#868e96">同一台 Mac · 两个 Dock 图标 · 两套登录态 · 仅一处受控共享</text>
+
+  <!-- ===================== 实例 A 泳道 ===================== -->
+  <rect x="28" y="80" width="300" height="470" rx="12" fill="#eef2ff" stroke="#4f6df5" stroke-width="1.5"/>
+  <rect x="28" y="80" width="300" height="36" rx="12" fill="#4f6df5"/>
+  <rect x="28" y="100" width="300" height="16" fill="#4f6df5"/>
+  <text x="178" y="103" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">实例 A（主）</text>
+
+  <rect x="46" y="130" width="264" height="52" rx="8" fill="#ffffff" stroke="#4f6df5"/>
+  <text x="60" y="151" font-size="12.5" font-weight="600" fill="#212529">📦 WorkBuddy.app</text>
+  <text x="60" y="169" font-size="10.5" fill="#495057">Bundle ID: com.tencent.workbuddy.mac</text>
+
+  <rect x="46" y="194" width="264" height="64" rx="8" fill="#ffffff" stroke="#4f6df5"/>
+  <text x="60" y="215" font-size="12.5" font-weight="600" fill="#212529">🗂 ~/.workbuddy</text>
+  <text x="60" y="232" font-size="10.5" fill="#495057">数据根：会话 · 记忆 · skills · 插件</text>
+  <text x="60" y="248" font-size="10.5" fill="#495057">登录凭据 credentials/ · workbuddy.db</text>
+
+  <rect x="46" y="270" width="264" height="48" rx="8" fill="#ffffff" stroke="#4f6df5"/>
+  <text x="60" y="290" font-size="12.5" font-weight="600" fill="#212529">♻️ Caches/…mac.BundleMigration</text>
+  <text x="60" y="307" font-size="10.5" fill="#495057">独立更新缓存（自行克隆启动）</text>
+
+  <rect x="46" y="330" width="264" height="48" rx="8" fill="#ffffff" stroke="#4f6df5"/>
+  <text x="60" y="350" font-size="12.5" font-weight="600" fill="#212529">⚙️ com.tencent.workbuddy.mac.plist</text>
+  <text x="60" y="367" font-size="10.5" fill="#495057">独立偏好设置</text>
+
+  <rect x="46" y="390" width="264" height="48" rx="8" fill="#ffffff" stroke="#4f6df5"/>
+  <text x="60" y="410" font-size="12.5" font-weight="600" fill="#212529">🔑 钥匙串身份：WorkBuddy</text>
+  <text x="60" y="427" font-size="10.5" fill="#495057">由 productName = WorkBuddy 决定</text>
+
+  <rect x="46" y="450" width="264" height="86" rx="8" fill="#e7f5ff" stroke="#4f6df5" stroke-dasharray="4 3"/>
+  <text x="60" y="471" font-size="11.5" font-weight="600" fill="#1971c2">origin = WorkBuddy.app 主程序</text>
+  <text x="60" y="489" font-size="10.5" fill="#495057">全程只读，未被修改</text>
+  <text x="60" y="506" font-size="10.5" fill="#495057">Device A · 账号 A 在线</text>
+  <text x="60" y="523" font-size="10.5" fill="#495057">Dock 图标 ①</text>
+
+  <!-- ===================== 实例 B 泳道 ===================== -->
+  <rect x="352" y="80" width="300" height="470" rx="12" fill="#fff4e6" stroke="#e8590c" stroke-width="1.5"/>
+  <rect x="352" y="80" width="300" height="36" rx="12" fill="#e8590c"/>
+  <rect x="352" y="100" width="300" height="16" fill="#e8590c"/>
+  <text x="502" y="103" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff">实例 B（副本）</text>
+
+  <rect x="370" y="130" width="264" height="52" rx="8" fill="#ffffff" stroke="#e8590c"/>
+  <text x="384" y="151" font-size="12.5" font-weight="600" fill="#212529">📦 WorkBuddy 2.app（APFS 克隆）</text>
+  <text x="384" y="169" font-size="10.5" fill="#495057">Bundle ID: …mac.alt2 · DisplayName: WorkBuddy 2</text>
+
+  <rect x="370" y="194" width="264" height="64" rx="8" fill="#ffffff" stroke="#e8590c"/>
+  <text x="384" y="215" font-size="12.5" font-weight="600" fill="#212529">🗂 ~/.workbuddy-2</text>
+  <text x="384" y="232" font-size="10.5" fill="#495057">WORKBUDDY_CONFIG_DIR 重定向（官方开关）</text>
+  <text x="384" y="248" font-size="10.5" fill="#495057">登录凭据 · 数据库 · 会话全部独立</text>
+
+  <rect x="370" y="270" width="264" height="48" rx="8" fill="#ffffff" stroke="#e8590c"/>
+  <text x="384" y="290" font-size="12.5" font-weight="600" fill="#212529">♻️ Caches/…mac.alt2.BundleMigration</text>
+  <text x="384" y="307" font-size="10.5" fill="#495057">由 product.json darwinBundleIdentifier 决定</text>
+
+  <rect x="370" y="330" width="264" height="48" rx="8" fill="#ffffff" stroke="#e8590c"/>
+  <text x="384" y="350" font-size="12.5" font-weight="600" fill="#212529">⚙️ com.tencent.workbuddy.mac.alt2.plist</text>
+  <text x="384" y="367" font-size="10.5" fill="#495057">独立偏好设置</text>
+
+  <rect x="370" y="390" width="264" height="48" rx="8" fill="#ffffff" stroke="#e8590c"/>
+  <text x="384" y="410" font-size="12.5" font-weight="600" fill="#212529">🔑 钥匙串身份：WorkBuddy2</text>
+  <text x="384" y="427" font-size="10.5" fill="#495057">由 productName = WorkBuddy2 决定</text>
+
+  <rect x="370" y="450" width="264" height="86" rx="8" fill="#fff0f6" stroke="#e8590c" stroke-dasharray="4 3"/>
+  <text x="384" y="471" font-size="11.5" font-weight="600" fill="#c2255c">CFBundleName 保持 WorkBuddy 不动！</text>
+  <text x="384" y="489" font-size="10.5" fill="#495057">改了 → Electron 找不到 Helper.app</text>
+  <text x="384" y="506" font-size="10.5" fill="#495057">Device B · 账号 B 在线</text>
+  <text x="384" y="523" font-size="10.5" fill="#495057">Dock 图标 ②（ad-hoc 重签名）</text>
+
+  <!-- ===================== 连线到共享屋 ===================== -->
+  <line x1="178" y1="550" x2="240" y2="610" stroke="#868e96" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <line x1="502" y1="550" x2="440" y2="610" stroke="#868e96" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="205" y="578" font-size="10" fill="#868e96">读/写自己的文件</text>
+  <text x="440" y="578" font-size="10" fill="#868e96">读/写自己的文件</text>
+
+  <!-- ===================== 共享屋 ===================== -->
+  <rect x="40" y="612" width="600" height="150" rx="12" fill="#f1f3f5" stroke="#868e96" stroke-width="1.5" stroke-dasharray="7 5"/>
+  <text x="60" y="638" font-size="13" font-weight="700" fill="#212529">🚪 唯一的共享屋子（官方设计：供 CLI 子进程读取登录态）</text>
+  <text x="60" y="656" font-size="10.5" fill="#495057">~/Library/Application Support/CodeBuddyExtension/Data/Public/auth/</text>
+
+  <rect x="70" y="668" width="240" height="40" rx="7" fill="#dbe4ff" stroke="#4f6df5"/>
+  <text x="190" y="687" text-anchor="middle" font-size="11" font-weight="600" fill="#212529">workbuddy-desktop.info</text>
+  <text x="190" y="701" text-anchor="middle" font-size="9.5" fill="#495057">实例 A 的登录会话（明文 JSON）</text>
+
+  <rect x="370" y="668" width="240" height="40" rx="7" fill="#ffe8cc" stroke="#e8590c"/>
+  <text x="490" y="687" text-anchor="middle" font-size="11" font-weight="600" fill="#212529">workbuddy-desktop-alt2.info</text>
+  <text x="490" y="701" text-anchor="middle" font-size="9.5" fill="#495057">实例 B 的登录会话（authentication.id）</text>
+
+  <text x="340" y="730" text-anchor="middle" font-size="11" font-weight="600" fill="#2b8a3e">文件名由 authentication.id 决定 → 改名即分家，各写各的互不覆盖 ✅</text>
+  <text x="340" y="747" text-anchor="middle" font-size="10" fill="#c92a2a">不改的话：两实例同名文件 → 同登同退（本方案修复的核心 bug）</text>
+
+  <!-- ===================== 底注 ===================== -->
+  <line x1="60" y1="778" x2="620" y2="778" stroke="#dee2e6" stroke-width="1"/>
+  <text x="340" y="798" text-anchor="middle" font-size="10.5" fill="#868e96">⚠️ 物理世界的唯一例外：若两实例打开同一个工作文件夹，操作的是同一批文件 —— 给副本另选工作区即可彻底隔离</text>
+</svg>
