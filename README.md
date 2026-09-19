@@ -5,8 +5,9 @@
 ![method](https://img.shields.io/badge/method-零破解-green)
 ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 
-> 📌 **最近更新 · v1.1.0（2026-09-20）**：同步 5.5.6 实战经验 —— 跨版本升级流程、
-> 升级后登录态自动保留、脚本三增强（跳过逻辑 / 三件套自检 / 插件补丁提示）。
+> 📌 **最近更新 · v1.2.0（2026-09-20）**：新增 [Windows 可行性探讨](docs/windows.md)
+> （从 macOS 包逆向出的实证 + 推演路线 + 三个未知）；
+> 上一版 v1.1.0 同步了 5.5.6 实战（跨版本升级、登录态保留、脚本三增强）。
 > 完整迭代记录见 [CHANGELOG.md](CHANGELOG.md)。
 
 > **在同一台 Mac 上同时运行两个 WorkBuddy，登录两个不同账号，数据完全隔离。**
@@ -32,6 +33,7 @@
 - [FAQ](#faq)
 - [免责声明](#免责声明)
 - [更新日志](CHANGELOG.md)
+- [Windows 可行性探讨](docs/windows.md)（未实测）
 
 ---
 
@@ -299,7 +301,15 @@ bash scripts/verify-isolation.sh    # 6 组隔离自检，全绿 = 隔离完好
 <details>
 <summary><b>Windows 能用吗？</b></summary>
 
-本文档仅限 macOS。Windows 版 WorkBuddy 有官方单实例锁与不同的目录结构，不适用。
+**思路通用，但本仓库的脚本不能直接跑，且未经实测。**
+
+从 macOS 版程序包里能看到官方为 Windows 准备了一整套身份字段
+（`win32MutexName` / `win32AppUserModelId` / `win32x64AppId` …），
+改法与 macOS 三件套同源，但字段名不同；另外 Windows **不需要重签名**（比 macOS 省心），
+却多了一个"原生启动器互斥体"的未知数 —— 改 JSON 未必绕得开。
+
+完整推演、字段对照表、验证清单见 👉 [docs/windows.md](docs/windows.md)。
+（早期版本这里写的是"不适用"，那是没有依据的武断结论，已更正。）
 </details>
 
 <details>

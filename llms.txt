@@ -16,6 +16,7 @@
 # 深入阅读
 - docs/troubleshooting.md: 全部踩坑记录。CFBundleName 崩溃、签名幽灵文件、共享 auth 会话串号、kill -9 僵尸、pkill 自杀等真实故障与解法。
 - docs/isolation-map.svg: 双实例隔离地图（矢量图）。
+- docs/windows.md: Windows 可行性探讨（**未实测**）。基于 macOS 包逆向出的三条实证、跨平台字段对照表、推演路线、三个真未知。回答"这套方案能否移植到 Windows"。
 
 # 直链模板
 https://raw.githubusercontent.com/ccccplus/workbuddy-multi-instance/main/<路径>

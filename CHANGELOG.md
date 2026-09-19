@@ -5,6 +5,31 @@
 
 ---
 
+## [1.2.0] — 2026-09-20 · 新增 Windows 可行性探讨
+
+回答一个被问到的问题：**这套方案能不能搬到 Windows 上？**
+
+### 📝 文档 · 新增
+
+- **`docs/windows.md`**（未在 Windows 实测，全文区分「实证 / 推演 / 未知」）
+  - **三条实证**（均来自 macOS 5.5.6 程序包，可复现）：
+    1. 读 `WORKBUDDY_CONFIG_DIR` 的是纯 Node 代码 → 平台无关
+    2. `app.setPath('userData', '<数据目录>/app')` 主动重定向，官方注释点名 `%APPDATA%` 不被使用
+    3. product.json 里有完整 Windows 字段集：`win32x64AppId` / `win32arm64AppId` /
+       `win32x64UserAppId` / `win32arm64UserAppId` / `win32MutexName` / `win32AppUserModelId`
+  - **结论**：思路通用、脚本不通 —— 数据目录与登录态两层可直接搬，
+    身份层要换成 Windows 字段，且 Windows **不需要重签名**（比 macOS 省心）
+  - **推演路线**：复制目录 → 改 product.json（含字段对照表）→ `.bat` 注入环境变量 → 6 条验证清单
+  - **三个真未知**：`win32MutexName` 是否由原生启动器强制（最大不确定项）、
+    安装版 vs 解压版差异、Windows 包结构是否同构
+
+### 🔧 文档 · 修正
+
+- README FAQ「Windows 能用吗」：原文「不适用」过于绝对且无依据 →
+  改为「思路通用但脚本不通、未实测」，并指向 `docs/windows.md`
+
+---
+
 ## [1.1.0] — 2026-09-20 · 同步 5.5.6 实战经验
 
 **背景**：主 app 自动更新到 5.5.6 后，把停在 5.5.2 的副本手动同步上来。
