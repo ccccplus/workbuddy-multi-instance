@@ -5,6 +5,10 @@
 ![method](https://img.shields.io/badge/method-零破解-green)
 ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 
+> 📌 **最近更新 · v1.1.0（2026-09-20）**：同步 5.5.6 实战经验 —— 跨版本升级流程、
+> 升级后登录态自动保留、脚本三增强（跳过逻辑 / 三件套自检 / 插件补丁提示）。
+> 完整迭代记录见 [CHANGELOG.md](CHANGELOG.md)。
+
 > **在同一台 Mac 上同时运行两个 WorkBuddy，登录两个不同账号，数据完全隔离。**
 > 不破解、不注入、不魔改二进制 —— 全部利用 WorkBuddy 官方留出的配置开关，一个字节的主程序代码都不改，随时可完整回退。
 
@@ -27,6 +31,7 @@
 - [踩坑速查表](#踩坑速查表)
 - [FAQ](#faq)
 - [免责声明](#免责声明)
+- [更新日志](CHANGELOG.md)
 
 ---
 

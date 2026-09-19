@@ -10,6 +10,9 @@
 - scripts/setup-workbuddy-2.sh: 一键脚本（安装 / 修复 / 升级三合一）。复制主 app 为独立副本，改写身份标识，注入 product.json 三件套隔离配置，重签名并启动。
 - scripts/verify-isolation.sh: 隔离自检。核对副本身份、product.json 三件套、缓存目录、共享 auth 会话文件的分离状态。
 
+# 版本历史
+- CHANGELOG.md: 迭代记录。每次更新改了什么、修正了哪些过时表述、脚本有什么增强，以及方案在各 WorkBuddy 版本上的验证状态与已知边界。
+
 # 深入阅读
 - docs/troubleshooting.md: 全部踩坑记录。CFBundleName 崩溃、签名幽灵文件、共享 auth 会话串号、kill -9 僵尸、pkill 自杀等真实故障与解法。
 - docs/isolation-map.svg: 双实例隔离地图（矢量图）。
