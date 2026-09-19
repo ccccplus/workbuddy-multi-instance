@@ -28,7 +28,23 @@ if [ "$(uname)" != "Darwin" ]; then
   echo "❌ 本脚本仅支持 macOS。"; exit 1
 fi
 
-echo "🔍 主 app 版本：$(defaults read "$SRC/Contents/Info.plist" CFBundleShortVersionString)"
+MAIN_VER=$(defaults read "$SRC/Contents/Info.plist" CFBundleShortVersionString)
+echo "🔍 主 app 版本：$MAIN_VER"
+CUR_VER=""
+if [ -d "$DST" ]; then
+  CUR_VER=$(defaults read "$DST/Contents/Info.plist" CFBundleShortVersionString 2>/dev/null || echo "")
+  echo "📦 副本当前版本：$CUR_VER"
+fi
+
+# 已是最新版则跳过，避免白白关掉副本重建一遍（首次安装时 DST 不存在，不受影响）
+# --force 可强制重建。⚠️ 变量紧跟中文标点时必须写 ${VAR}：macOS bash 3.2 会把
+# 多字节标点吞进变量名（$CUR_VER，→ 找名为 "CUR_VER，" 的变量 → unbound variable）
+FORCE=0
+for arg in "$@"; do [[ "$arg" == "--force" ]] && FORCE=1; done
+if [[ -n "$CUR_VER" && "$CUR_VER" == "$MAIN_VER" && "$FORCE" == "0" ]]; then
+  echo "✨ 副本已是最新版 ${CUR_VER}，无需更新（想强制重建加 --force）"
+  exit 0
+fi
 
 # ---------------------------------------------------------------- 1. 关闭副本
 PID=$(lsappinfo list 2>/dev/null | grep -B1 -A4 "$ALT_ID" \
@@ -111,6 +127,37 @@ fi
   -f -R "$DST" >/dev/null 2>&1 || true
 
 NEW_VER=$(defaults read "$DST/Contents/Info.plist" CFBundleShortVersionString)
+
+# ---------------------------------------------- 8.5 三件套自检（任一不对立刻停手报警）
+# 官方改版可能挪动 product.json 字段位置；与其让你开着半隔离的副本排查三天，
+# 不如在部署时当场把三件套验一遍。
+echo "🔬 自检 product.json 三件套…"
+/usr/bin/python3 - "$PRODUCT_JSON" "$ALT_ID" "$AUTH_ID" <<'PYEOF' \
+  || { echo "❌ 隔离自检未通过！请勿使用，检查 product.json 字段是否被新版改动"; exit 1; }
+import json, sys
+path, alt_id, auth_id = sys.argv[1], sys.argv[2], sys.argv[3]
+d = json.load(open(path))
+checks = [
+    ("productName",            d.get('productName'),                  'WorkBuddy2'),
+    ("darwinBundleIdentifier", d.get('darwinBundleIdentifier'),       alt_id),
+    ("authentication.id",      d.get('authentication', {}).get('id'), auth_id),
+]
+ok = True
+for name, got, want in checks:
+    if got == want:
+        print(f"   ✅ {name} = {got}")
+    else:
+        print(f"   ❌ {name} = {got}（应为 {want}）"); ok = False
+sys.exit(0 if ok else 1)
+PYEOF
+
+# ---------------------------------------------- 8.6 插件补丁复检
+# 副本的插件在数据目录 ~/.workbuddy-2 内，升级 app 不会动它；
+# 但插件自身升级会覆盖脚本、把路径补丁冲掉 —— 打过补丁的话记得重打。
+if [ -d "$CFG_DIR/plugins" ]; then
+  echo "🍜 提示：若你给副本插件打过路径补丁，插件自行升级会冲掉它 —— 需重打一次。"
+fi
+
 echo ""
 echo "✅ 部署完成：WorkBuddy 2 v$NEW_VER"
 echo "   · 程序：$DST"

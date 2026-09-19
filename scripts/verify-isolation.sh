@@ -71,8 +71,14 @@ echo ""
 echo "【5/6】更新缓存目录分离"
 ALT_CACHE="$HOME/Library/Caches/$ALT_ID.BundleMigration"
 MAIN_CACHE="$HOME/Library/Caches/com.tencent.workbuddy.mac.BundleMigration"
-[ -d "$ALT_CACHE" ] && ok "副本独立缓存已生成：$ALT_CACHE" \
-                    || note "副本缓存尚未生成（首次启动后出现；若已启动多次仍无 → product.json 未生效）"
+# 注：5.5.6 起该机制可能不再使用 —— 主实例也没此目录时判为「不适用」，不算故障
+if [ -d "$ALT_CACHE" ]; then
+  ok "副本独立缓存已生成：$ALT_CACHE"
+elif [ ! -d "$MAIN_CACHE" ]; then
+  note "该版本不使用 BundleMigration 缓存机制（主实例也无此目录）→ 此项不适用，非故障"
+else
+  note "副本缓存尚未生成（首次启动后出现；若已启动多次仍无 → product.json 未生效）"
+fi
 [ -d "$MAIN_CACHE" ] && ok "主实例缓存原样存在"
 
 echo ""

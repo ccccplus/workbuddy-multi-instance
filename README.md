@@ -11,7 +11,7 @@
 - 🎯 **效果**：Dock 上两个独立图标 · 两个账号同时在线 · 登出互不影响
 - 🧩 **原理**：官方环境变量 `WORKBUDDY_CONFIG_DIR` + 三处身份配置改写
 - 🤖 **懒人路线**：把 [AGENT.md](AGENT.md) 丢给任何 AI 助手，全自动部署
-- 🧪 **5.5.2 / 5.5.3 实测通过**，双开 → 双账号 → 双账号领券全链路验证
+- 🧪 **5.5.2 / 5.5.3 / 5.5.6 实测通过**，双开 → 双账号 → 双账号领券全链路验证（含跨版本升级 5.5.2 → 5.5.6 实测）
 
 ---
 
@@ -55,7 +55,7 @@
 |---|---|---|---|
 | 程序本体 | `WorkBuddy.app` | `WorkBuddy 2.app` | ✅ |
 | 数据根目录 | `~/.workbuddy` | `~/.workbuddy-2` | ✅ |
-| 更新缓存 | `~/Library/Caches/com.tencent.workbuddy.mac.BundleMigration` | `…mac.alt2.BundleMigration` | ✅ |
+| 更新缓存 | `~/Library/Caches/com.tencent.workbuddy.mac.BundleMigration` | `…mac.alt2.BundleMigration` | ✅ 注：5.5.6 起官方疑似不再生成此目录（实测两侧均无），但 `darwinBundleIdentifier` 仍须改 |
 | 偏好设置 | `com.tencent.workbuddy.mac.plist` | `…mac.alt2.plist` | ✅ |
 | 登录会话文件 | `workbuddy-desktop.info` | `workbuddy-desktop-alt2.info` | ✅ 同目录不同文件 |
 | 钥匙串身份 | productName `WorkBuddy` | productName `WorkBuddy2` | ✅ |
@@ -230,13 +230,24 @@ WORKBUDDY_CONFIG_DIR="$HOME/.workbuddy-2" /Applications/WorkBuddy.app/Contents/M
 
 ## 升级与回退
 
-**主 app 自动更新后，副本会停在旧版本**（两套 app 各是各的文件）。处理：
+**主 app 自动更新后，副本会停在旧版本**（两套 app 各是各的文件）。副本**不参与**官方自动更新，这是刻意的：官方更新器会用原版包覆盖掉我们的三件套补丁，隔离会当场失效。所以正确姿势是"手动同步"。
 
 ```bash
-bash setup-workbuddy-2.sh        # 重新克隆 + 改身份 + 重签名，约 10 秒
+bash setup-workbuddy-2.sh        # 重新克隆 + 改身份 + 重签名 + 自检，约 1 分钟
 ```
 
-数据目录 `~/.workbuddy-2` **完全不受影响** —— 登录态、记忆、技能全部保留，换的只是程序壳。
+**怎么知道该不该升**：跑一次上面的命令就行 —— 它会先打印主 app 与副本的版本号，相同则自动跳过（`已是最新版，无需更新`），不会白白关一次副本；想强制重建加 `--force`；只更新不启动加 `--no-launch`。
+
+数据目录 `~/.workbuddy-2` **完全不受影响** —— 登录态、记忆、技能、插件凭据全部保留，换的只是程序壳。
+**实测跨版本升级（5.5.2 → 5.5.6）后无需重新登录**：副本启动后会自动刷新自己的会话文件（共享目录里的 `workbuddy-desktop-alt2.info` 时间戳会变）。
+
+升级后建议跑一次全量自检：
+
+```bash
+bash scripts/verify-isolation.sh    # 6 组隔离自检，全绿 = 隔离完好
+```
+
+> ⚠️ 升级过程会短暂关闭副本（kill → 重建 → 重签名），别挑它正在跑定时任务的时候。主 app 全程不用管。
 
 **完整回退**：删掉 `/Applications/WorkBuddy 2.app` 和 `~/.workbuddy-2` 即回到原点，主 app 全程未被修改过。
 
@@ -258,6 +269,7 @@ bash setup-workbuddy-2.sh        # 重新克隆 + 改身份 + 重签名，约 10
 
 - `[LocalProbe] HTTP server error: EADDRINUSE, port 18488` —— 本地探测端口有 `[18488,18489,18490]` 候选，自动顺延，官方设计
 - `[Splash] Skipped due to previous crash` —— 上次强杀的标记，无害
+- `[SandboxCenter] lock-conflict retry #N … waiting for the stale center to release the single-instance lock` —— 升级重启瞬间旧进程还没放手，重试几次就拿到锁，无害（若持续超过一两分钟再排查）
 
 ## FAQ
 
@@ -276,7 +288,7 @@ bash setup-workbuddy-2.sh        # 重新克隆 + 改身份 + 重签名，约 10
 <details>
 <summary><b>两份数据有多大？</b></summary>
 
-每实例约 1 GB 程序 + 各自独立增长的运行时（node/python 约 700 MB/份）与缓存。磁盘紧张时可删两个 `BundleMigration` 缓存目录（共约 4 GB，可再生，下次升级自动重建）。
+每实例约 1 GB 程序 + 各自独立增长的运行时（node/python 约 700 MB/份）与缓存。磁盘紧张时可删两个 `BundleMigration` 缓存目录（共约 4 GB，可再生，下次升级自动重建）—— 注：5.5.6 起官方疑似不再生成该目录，若查无此目录属正常，不必找。
 </details>
 
 <details>
